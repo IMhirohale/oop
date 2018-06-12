@@ -19,10 +19,10 @@ class User{
 
 		try{
 
-			$objDb = new PDO('mysql:host=localhost;dbname=helloworld', 'root', 'xlghl123.com');
+			$objDb     = new PDO('mysql:host=localhost;dbname=helloworld', 'root', 'xlghl123.com');
 			$userPhone = $userInfo['userPhone'];
-			$query = "select phone,salt,password from hello_user where phone=$userPhone;";
-			$pre = $objDb->prepare($query) or die(print_r($objDb->errorInfo(), true));
+			$query     = "select phone,salt,password from hello_user where phone=$userPhone;";
+			$pre       = $objDb->prepare($query) or die(print_r($objDb->errorInfo(), true));
 			$pre->execute();
 			$res = $pre->fetch(PDO::FETCH_ASSOC);
 
@@ -81,8 +81,8 @@ class User{
 
 		$saltNumber = $this->saltNumber();
 		$userInfo['userPasswd'] = $this->saltPasswd($userInfo['userPasswd'], $saltNumber);
-		$userName = $userInfo['userName'];
-		$userPhone = $userInfo['userPhone'];
+		$userName   = $userInfo['userName'];
+		$userPhone  = $userInfo['userPhone'];
 		$userPasswd = $userInfo['userPasswd'];
 		$createTime = $userInfo['createTime'];
 
