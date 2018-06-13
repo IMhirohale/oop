@@ -58,8 +58,8 @@ class Db{
 
 /*
 $objDb = Db::getInstance();
-$pre = $objDb->getPDO()->prepare("select * from hello_user") or die(print_r($objDb->getPDO()->errorInfo(), true));
-$pre->execute();
+$pre = $objDb->getPDO()->prepare("select * from hello_user where id = 10") or die(print_r($objDb->getPDO()->errorInfo(), true));
+$res = $pre->execute();
 $res = $pre->fetch(PDO::FETCH_ASSOC);
 var_dump($res);
 */
