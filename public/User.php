@@ -33,6 +33,8 @@ class User{
 
 			if($userPasswd === $res['password']){
 
+				session_start();
+
 				//记录用户登录状态
 				$_SESSION['userInfo'] = [
 					'userPhone'   => $userInfo['userPhone'],

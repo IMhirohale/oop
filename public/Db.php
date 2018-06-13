@@ -13,12 +13,20 @@ class Db{
 	 */
     private static $_instance;
 
+
+	/**
+	 *数据库用户名和密码
+	 */
+	const DB_DNS  = 'mysql:host=localhost;dbname=helloworld';
+	const DB_USER = 'root';
+	const DB_PWD  = 'xlghl123.com';
+
 	/**
 	 *构造函数
 	 */
     private function __construct(){
 
-		$this->_db = new PDO('mysql:host=localhost;dbname=helloworld', 'root', 'xlghl123.com');
+		$this->_db = new PDO(self::DB_DNS ,self::DB_USER ,self::DB_PWD);
     }
 
 	/**
