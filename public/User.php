@@ -1,4 +1,7 @@
 <?php
+
+require("Db.php");
+
 class User{	
 
 	/*
@@ -11,7 +14,7 @@ class User{
 			exit;
 		}
 
-		if(!checkPhone($userInfo['userPasswd'])){
+		if(!$this->checkPhone($userInfo['userPasswd'])){
 			echo '<script language="JavaScript">;alert("请输入正确的手机号");history.back();</script>';
 			exit;
 
@@ -19,7 +22,7 @@ class User{
 
 		try{
 
-			$objDb     = new PDO('mysql:host=localhost;dbname=helloworld', 'root', 'xlghl123.com');
+			$objDb = Db::getInstance()->getPDO();
 			$userPhone = $userInfo['userPhone'];
 			$query     = "select phone,salt,password from hello_user where phone=$userPhone;";
 			$pre       = $objDb->prepare($query) or die(print_r($objDb->errorInfo(), true));
@@ -88,7 +91,7 @@ class User{
 
 		try{
 
-			$objDb = new PDO('mysql:host=localhost;dbname=helloworld', 'root', 'xlghl123.com');
+			$objDb = Db::getInstance()->getPDO();
 			$query = "insert into hello_user(name,phone,salt,password,create_time)values('$userName','$userPhone','$saltNumber','$userPasswd','$createTime');";
 			$objDb->exec($query) or die(print_r($objDb->errorInfo(), true));
 			$objDb = null;
