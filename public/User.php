@@ -1,6 +1,9 @@
 <?php
 
-require("Db.php");
+require_once("Db.php");
+require_once("Message.php");
+require_once("Session.php");
+
 
 class User{	
 
@@ -10,13 +13,14 @@ class User{
 	public function userLogin($userInfo){
 
 		if(empty($userInfo['userPhone']) || empty($userInfo['userPasswd'])){
-			echo '<script language="JavaScript">;alert("手机号和密码不能为空");history.back();</script>';
-			exit;
+
+			Msg::js("手机号和密码不能为空");
+
 		}
 
 		if(!$this->checkPhone($userInfo['userPasswd'])){
-			echo '<script language="JavaScript">;alert("请输入正确的手机号");history.back();</script>';
-			exit;
+
+			Msg::js("请输入正确的手机号");
 
 		}
 
@@ -33,11 +37,12 @@ class User{
 
 			if($userPasswd === $res['password']){
 
-				session_start();
-
+				$ssObj = new Session();
+				$ssObj->sessionStart();		
 				//记录用户登录状态
 				$_SESSION['userInfo'] = [
 					'userPhone'   => $userInfo['userPhone'],
+					'userPasswd'   => $userPasswd,
 					'isLogin' => 1,
 				];
 
@@ -45,11 +50,11 @@ class User{
 			}
 
 			$objDb = null;
-			echo '<script language="JavaScript">;alert("登录成功！");location.href="http://test.oop.com/success.html";</script>;';
+			Msg::js("登录成功！", "http://test.oop.com/success.html");
 
 		}catch (PDOException $e){
 			echo 'Error: ' . $e->getMessage();
-			echo '<script language="JavaScript">;alert("登录失败！");location.href="http://test.oop.com/404.html";</script>;';
+			Msg::js("登录失败！", "http://test.oop.com/404.html");
 		}
 
 	}
@@ -60,28 +65,30 @@ class User{
 	public function userRegister($userInfo){
 
 		if(empty($userInfo['userName'] || !$this->checkName($userInfo['userName']))){
-			echo '<script language="JavaScript">;alert("用户名不合法或为空");history.back();</script>';
-			exit;
+
+			Msg::js("用户名不合法或为空");
 		}
 
 		if(empty($userInfo['userPhone']) || !$this->checkPhone($userInfo['userPhone'])){
-			echo '<script language="JavaScript">;alert("手机号不能为空或格式不正确");history.back();</script>';
-			exit;
+
+			Msg::js("手机号不能为空或格式不正确");
+
 		}
 
 		if(empty($userInfo['userPasswd'])){
-			echo '<script language="JavaScript">;alert("密码不能为空");history.back();</script>';
-			exit;
+
+			Msg::js("密码不能为空");
+
 		}
 
 		if(empty($userInfo['userPasswdConfirm'])){
-			echo '<script language="JavaScript">;alert("确认密码不能为空");history.back();</script>';
-			exit;
+
+			Msg::js("确认密码不能为空");
 		}
 
 		if($userInfo['userPasswd'] !== $userInfo['userPasswdConfirm']){
-			echo '<script language="JavaScript">;alert("密码与确认密码不相等，请检查并重新输入");history.back();</script>';
-			exit;
+
+			Msg::js("密码与确认密码不相等，请检查并重新输入");
 		}
 
 		$saltNumber = $this->saltNumber();
@@ -97,11 +104,13 @@ class User{
 			$query = "insert into hello_user(name,phone,salt,password,create_time)values('$userName','$userPhone','$saltNumber','$userPasswd','$createTime');";
 			$objDb->exec($query) or die(print_r($objDb->errorInfo(), true));
 			$objDb = null;
-			echo '<script language="JavaScript">;alert("注册成功！赶快去登录吧！");location.href="http://test.oop.com/login.html";</script>;';
+			Msg::js("注册成功！赶快去登录吧！","http://test.oop.com/login.html");
 
 		}catch (PDOException $e){
+
 			echo 'Error: ' . $e->getMessage(); 		
-			echo '<script language="JavaScript">;alert("注册失败！");location.href="http://test.oop.com/404.html";</script>;';
+			Msg::js("注册失败！","http://test.oop.com/404.html");
+
 		}
 
 

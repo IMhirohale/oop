@@ -1,6 +1,6 @@
 <?php
 
-require("Db.php");
+require_once("Db.php");
 
 class Session{
 
@@ -29,7 +29,7 @@ class Session{
 	 *session-open()函数
 	 */
 	public function sessionOpen(){
-
+        
 		if($this->_db == null){
 			$this->_db = Db::getInstance()->getPDO();
 		}
@@ -142,9 +142,10 @@ class Session{
 	
 		try {
 
+			$nowTime = time();
 			$sql = 'delete from user_session where expire_time < ?';	
 			$pre = $this->_db->prepare($sql);
-			$res = $pre->execute(array($sessionId));
+			$res = $pre->execute(array($nowTime));
 
 			if($res !== false){
 				return true;
@@ -209,7 +210,9 @@ class Session{
 
 }
 
+/*
 $obj = new Session();
-$res = $obj->sessionStart();
-$_SESSION['user'] = 'world';  
-$_SESSION['password'] = '123456';  
+$obj->sessionStart();
+$_SESSION['user'] = 'worlssd';  
+$_SESSION['password'] = '12ss3456';  
+*/
