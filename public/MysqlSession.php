@@ -2,7 +2,7 @@
 
 require_once("Db.php");
 
-class Session{
+class MysqlSession{
 
 
 	/**
@@ -194,24 +194,23 @@ class Session{
 	 **/
 	public  function sessionStart(){
 
-		$handler = new Session();
 		session_set_save_handler(
-			array($handler, 'sessionOpen'),
-			array($handler, 'sessionClose'),
-			array($handler, 'sessionRead'),
-			array($handler, 'sessionWrite'),
-			array($handler, 'sessionDestroy'),
-			array($handler, 'sessionGc')
+			array($this, 'sessionOpen'),
+			array($this, 'sessionClose'),
+			array($this, 'sessionRead'),
+			array($this, 'sessionWrite'),
+			array($this, 'sessionDestroy'),
+			array($this, 'sessionGc')
 		);
 		register_shutdown_function('session_write_close');
-		$handler->sessionId();
+		$this->sessionId();
 		session_start();
 	}
 
 }
 
 /*
-$obj = new Session();
+$obj = new MysqlSession();
 $obj->sessionStart();
 $_SESSION['user'] = 'worlssd';  
 $_SESSION['password'] = '12ss3456';  

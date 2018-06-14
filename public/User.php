@@ -2,7 +2,8 @@
 
 require_once("Db.php");
 require_once("Message.php");
-require_once("Session.php");
+require_once("MysqlSession.php");
+require_once("RedisSession.php");
 
 
 class User{	
@@ -37,8 +38,11 @@ class User{
 
 			if($userPasswd === $res['password']){
 
-				$ssObj = new Session();
-				$ssObj->sessionStart();		
+			//	$ssmObj = new MysqlSession();
+			//	$ssmObj->sessionStart();		
+				
+				$ssrObj = new RedisSession();
+				$ssrObj->sessionStart();		
 				//记录用户登录状态
 				$_SESSION['userInfo'] = [
 					'userPhone'   => $userInfo['userPhone'],
