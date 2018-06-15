@@ -24,6 +24,7 @@ class RedisSession{
 
 	public function close(){
 		
+		//PHP Warning:  session_write_close(): Failed to write session data using user defined save handler. (session.save_path
 		#session_write_close();
 		return true;
 	}

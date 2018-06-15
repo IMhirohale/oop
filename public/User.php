@@ -19,7 +19,7 @@ class User{
 
 		}
 
-		if(!$this->checkPhone($userInfo['userPasswd'])){
+		if(!$this->checkPhone($userInfo['userPhone'])){
 
 			Msg::js("请输入正确的手机号");
 
@@ -50,15 +50,18 @@ class User{
 					'isLogin' => 1,
 				];
 
+				$objDb = null;
+				Msg::js("登录成功！", "http://test.oop.com/success.html");
 
+			}else{
+
+				Msg::js("登录失败！", "http://test.oop.com/404.html");
 			}
 
-			$objDb = null;
-			Msg::js("登录成功！", "http://test.oop.com/success.html");
+
 
 		}catch (PDOException $e){
 			echo 'Error: ' . $e->getMessage();
-			Msg::js("登录失败！", "http://test.oop.com/404.html");
 		}
 
 	}
@@ -160,6 +163,7 @@ class User{
 }
 
 $objUser = new User();
+
 
 if(preg_match('/login/',$_SERVER['HTTP_REFERER'],$res)){
 
