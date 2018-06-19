@@ -6,27 +6,35 @@
 class Log{
 
 	const MESSAGE_TYPE = 3;//日志写入方式：写入到日志文件
-	const DIR = __DIR__;
-	const LOGPATH = '/home/homework/log/';
+	const DIR = __DIR__;   //文件运行的当前目录
+	const LOGPATH = '/home/homework/log/'; //项目日志文件存放路径
 
-	public function __construct(){
+	public function __construct()
+	{
 
 	}
 
+	/**
+	 *获取log相关的部分信息
+	 * */
 	public static function getLogInfo()  
 	{  
 		$debugInfo = debug_backtrace();  
-		$errFile = $debugInfo[0]["file"];  
-		$errLine = $debugInfo[0]["line"];  
-		$dateTime       = date("[Y-m-d H:i:s]");  
+		$errFile   = $debugInfo[0]["file"];  
+		$errLine   = $debugInfo[0]["line"];  
+		$dateTime  = date("[Y-m-d H:i:s]");  
 
-		$logStr = $dateTime."[".$errFile.":".$errLine."] ";  
+		$logStr    = $dateTime."[".$errFile.":".$errLine."] ";  
 
 		return $logStr;
 
 	}
 
 
+	/**
+	 * 打印日志信息到access文件
+	 * @$errMsg 日志信息
+	 * */
 	public static function addNotice($errMsg = '')
 	{
 		$logInfo = self::getLogInfo();
@@ -36,6 +44,10 @@ class Log{
 		error_log($logInfo, self::MESSAGE_TYPE, $logFile);  
 	}
 
+	/**
+	 * 打印日志信息到error文件
+	 * @$errMsg 日志信息
+	 * */
 	public static function addWarning($errMsg = '')
 	{	
 		$logInfo = self::getLogInfo();
