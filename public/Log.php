@@ -18,8 +18,7 @@ class Log{
 		$debugInfo = debug_backtrace();  
 		$errFile = $debugInfo[0]["file"];  
 		$errLine = $debugInfo[0]["line"];  
-
-		$dateTime = date("[Y-m-d H:i:s]");  
+		$dateTime       = date("[Y-m-d H:i:s]");  
 
 		$logStr = $dateTime."[".$errFile.":".$errLine."] ";  
 
