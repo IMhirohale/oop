@@ -1,34 +1,19 @@
 <?php
 
+/**
+ *日志类
+ * */
 class Log{
 
-
 	const MESSAGE_TYPE = 3;//日志写入方式：写入到日志文件
-
-	/**
-	 *日志级别
-	 * */
-	const NOTICE  = 1; //提示性错误
-	const WARNING = 2; //警告性错误
-	const FATAL   = 3; //致命性错误
-
-	static $ERROR = [
-		self::NOTICE  => 'PHP Notice',
-		self::WARNING => 'PHP Warning',
-		self::FATAL   => 'PHP Fatal',
-	];
-
-	/**
-	 *日志文件路径
-	 * */
-	private $_logFile;
-	private $_logInfo;
+	const DIR = __DIR__;
+	const LOGPATH = '/home/homework/log/';
 
 	public function __construct(){
 
 	}
 
-	public function getLogInfo()  
+	public static function getLogInfo()  
 	{  
 		$debugInfo = debug_backtrace();  
 		$errFile = $debugInfo[0]["file"];  
@@ -43,33 +28,49 @@ class Log{
 	}
 
 
-	public function addNotice($errMsg = '', $logFile = '')
+	public static function addNotice($errMsg = '')
 	{
-		$logInfo = $this->getLogInfo();
-		$logInfo = $logInfo." ".self::$ERROR[1]." ".$errMsg."\r\n";
+		$logInfo = self::getLogInfo();
+		$logInfo = $logInfo." ".$errMsg."\r\n";
+		$logFile = self::getAccessLogFile();
 		
 		error_log($logInfo, self::MESSAGE_TYPE, $logFile);  
 	}
 
-	public function addWarning($errMsg = '', $logFile = '')
+	public static function addWarning($errMsg = '')
 	{	
-		$logInfo = $this->getLogInfo();
-		$logInfo = $logInfo." ".self::$ERROR[2]." ".$errMsg."\r\n";
+		$logInfo = self::getLogInfo();
+		$logInfo = $logInfo." ".$errMsg."\r\n";
+		$logFile = self::getErrorLogFile();
 
 		error_log($logInfo, self::MESSAGE_TYPE, $logFile);  
 
 	}
 
-	public function addFatal($errMsg = '', $logFile = '')
-	{	
-		$logInfo = $this->getLogInfo();
-		$logInfo = $logInfo." ".self::$ERROR[3]." ".$errMsg."\r\n";
+	/**
+	 *获取access日志文件路径
+	 * */
+	public static function getAccessLogFile()
+	{
+		$appPath = explode('/',self::DIR);			
+		$appName = $appPath[4];
+		$accessLogFile = self::LOGPATH.$appName.'/'.$appName."-"."access.log";
+		return is_file($accessLogFile) ? $accessLogFile : false;
+	}
 
-		error_log($logInfo, self::MESSAGE_TYPE, $logFile);  
+	/**
+	 *获取error日志文件路径
+	 * */
+	public static function getErrorLogFile()
+	{
+		$appPath = explode('/',self::DIR);			
+		$appName = $appPath[4];
+		$errorLogFile = self::LOGPATH.$appName.'/'.$appName."-"."error.log";
+		return is_file($errorLogFile) ? $errorLogFile : false;
 	}
 }
 
-
-$obj = new Log();
-$obj->addNotice("hello------------------world","/home/homework/log/php/php-errors.log");
-
+//Log::addWarning("-------------ghl-----------".var_export($,true));
+//var_export — 输出或返回一个变量的字符串表示
+//$op = '11111111111';
+//Log::addNotice("-------------ghl-----------".var_export($op,true));
