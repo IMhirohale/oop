@@ -2,6 +2,9 @@
 
 require_once('Redis.php');
 
+/**
+ *Redis 存储sessoin数据类
+ * */
 class RedisSession{
 	
 	private $_rdb;

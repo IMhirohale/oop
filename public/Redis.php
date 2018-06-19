@@ -1,5 +1,10 @@
 <?php
 
+
+/**
+ *
+ *Redis 单例模式类
+ * */
 class RedisDb{
 
 	private $_rdb;
